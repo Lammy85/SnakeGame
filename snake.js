@@ -143,13 +143,13 @@ function playAgain() {
     location.reload();
 }
 
-function saveScoreList() {
+function saveScoreList() { //Funktioniert noch nicht, sollte auch besser ne JSON file sein (Persistenz)
     document.getElementById('username').textContent = username;
     scoreList = [{ username }, { score }, ...scoreList];
     username.value = '';
 }
 
-function getScorelist() {
+function getScorelist() { //Funktioniert noch nicht
 
     scoreList.forEach(item => {
         highscore.innerHTML += `
