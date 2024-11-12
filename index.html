@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <style>
+        .navbar-custom {
+            background-color: lightgreen;
+        }
+
+        .container {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 1%;
+        }
+
+        #result {
+            align-items: center;
+            align-self: center;
+            justify-content: center;
+            width: 480px;
+            height: 480px;
+            padding: 10%;
+        }
+
+        #tutorial {
+            align-items: center;
+            align-self: center;
+            justify-content: center;
+            width: 480px;
+            height: 480px;
+            padding: 10%;
+            background-color: black;
+            color: white;
+        }
+
+        .carousel-inner {
+            display: flex;
+            height: 200px;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            margin: -20%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-custom">
+        <div class="container-fluid justify-content-start">
+
+            <a class="navbar-brand" href="#">
+                <img src="snake-svgrepo-com.svg" alt="Logo" width="30" height="24"
+                    class="d-inline-block align-text-top">
+                Snake Game
+            </a>
+            <button class="btn btn-outline-success btn-sm" id="tutorialButton" type="button">How To Play</button>
+
+            <div>
+            </div>
+    </nav>
+    <div class="container-fluid d-flex justify-content-start">
+        <p>Score: <span id="score"></span></p>
+    </div>
+    <div class="container d-flex justify-content-center align-items-center">
+
+        <canvas id="canvas" width="480" height="480" hidden="false"></canvas>
+        <div id="result" hidden="true" class="card">
+            <div class="card-header">
+                <h2>Game Over</h2>
+            </div>
+            <div class="card-body">
+                <p>Score: <span id="total"></span></p>
+            </div>
+            <form onsubmit="saveScore();return false;">
+                <div>
+                    <input type="text" id="username" class="form-control" placeholder="Your Name">
+                </div>
+                <button type="submit" class="btn btn-secondary" id="saveButton">
+                    Save Score
+                </button>
+            </form>
+            <div><button class="btn btn-secondary" id="againButton" type="button">Play Again</button></div>
+        </div>
+        <div id="tutorial" hidden="true" class="card">
+            <div class="card-header">
+                <h2>How To Play</h2>
+            </div>
+            <div class="card-body">
+                <div id="carouselExample" class="carousel slide">
+
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <p>Use the arrow keys to control the little green snake.<br><br>
+                                Try to make the snake eat as many pills as you can.</p>
+                        </div>
+                        <div class="carousel-item">
+                            <p>But be careful: with every pill, not only does your score increase, the
+                                snake's body gets longer faster. <br><br>The
+                                game ends when the snake hits the wall or one of its own body parts.</p>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    <div><button class="btn btn-secondary" id="playButton" type="button">Play</button></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+                <tbody id="highscore">
+                </tbody>
+            </table>
+        </div>
+
+
+        <script>
+
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+            let rows = 20;
+            let cols = 20;
+            let snake = [{ x: 9, y: 3 }];
+            let food;
+            let cellWidth = canvas.width / cols;
+            let cellHeight = canvas.height / rows;
+            let direction = '';
+            let foodCollected = false;
+            let counter = 300;
+            let score = 0;
+            let scoreList = [{ username: "Test", score: 100 }];
+
+            gameIntervall = setInterval(gameLoop, counter);
+            document.addEventListener('keydown', KeyDown);
+            document.getElementById('tutorialButton').addEventListener("click", showTutorial);
+            document.getElementById('playButton').addEventListener("click", closeTutorial);
+            document.getElementById('againButton').addEventListener("click", playAgain);
+
+
+            placeFood();
+            draw();
+            getScorelist();
+
+
+            function draw() {
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'lightgreen';
+
+                snake.forEach(part => add(part.x, part.y));
+
+                ctx.fillStyle = 'red';
+                add(food.x, food.y);
+
+                requestAnimationFrame(draw);
+            }
+
+            function testGameOver() {
+
+                let firstPart = snake[0];
+                let otherParts = snake.slice(1);
+                let duplicatePart = otherParts.find(part => part.x == firstPart.x && part.y == firstPart.y)
+
+
+                if (snake[0].x < 0 || snake[0].x > cols - 1 || snake[0].y < 0 || snake[0].y > rows - 1 || duplicatePart) {
+                    clearInterval(gameIntervall);
+                    document.getElementById('result').hidden = false;
+                    document.getElementById('canvas').hidden = true;
+                    document.getElementById('total').textContent = score;
+                }
+            }
+
+            function placeFood() {
+                let randomX = Math.floor(Math.random() * cols);
+                let randomY = Math.floor(Math.random() * rows);
+
+                food = { x: randomX, y: randomY };
+            }
+
+
+            function add(x, y) {
+                ctx.fillRect(x * cellWidth, y * cellHeight, cellWidth - 1, cellHeight - 1)
+            }
+
+            function shiftSnake() {
+                for (let i = snake.length - 1; i > 0; i--) {
+                    const part = snake[i];
+                    const lastPart = snake[i - 1];
+                    part.x = lastPart.x;
+                    part.y = lastPart.y;
+                }
+            }
+
+            function speedUp() {
+                counter = counter * 0.95;
+                clearInterval(gameIntervall)
+                gameIntervall = setInterval(gameLoop, counter);
+            }
+
+            function gameLoop() {
+                document.getElementById('tutorial').hidden = true;
+                document.getElementById('canvas').hidden = false;
+                document.getElementById('result').hidden = true;
+                document.getElementById('score').textContent = score;
+                testGameOver();
+                if (foodCollected) {
+                    snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
+                    foodCollected = false;
+                    score = score + 100;
+                    speedUp();
+                }
+
+                shiftSnake();
+
+                if (direction == 'LEFT') {
+                    snake[0].x--;
+                }
+                if (direction == 'RIGHT') {
+                    snake[0].x++;
+                }
+                if (direction == 'UP') {
+                    snake[0].y--;
+                }
+                if (direction == 'DOWN') {
+                    snake[0].y++;
+                }
+
+                if (snake[0].x == food.x && snake[0].y == food.y) {
+                    foodCollected = true;
+                    placeFood();
+                }
+            }
+
+            function KeyDown(e) {
+                if (e.keyCode == 37) {
+                    direction = 'LEFT';
+                }
+                if (e.keyCode == 38) {
+                    direction = 'UP';
+                }
+                if (e.keyCode == 39) {
+                    direction = 'RIGHT';
+                }
+                if (e.keyCode == 40) {
+                    direction = 'DOWN';
+                }
+            }
+
+            function showTutorial() {
+                clearInterval(gameIntervall);
+                document.getElementById('tutorial').hidden = false;
+                document.getElementById('canvas').hidden = true;
+                document.getElementById('results').hidden = true;
+            }
+
+            function closeTutorial() {
+                location.reload();
+            }
+
+            function playAgain() {
+                location.reload();
+            }
+
+            function saveScoreList() {
+                document.getElementById('username').textContent = username;
+                scoreList = [{username},{score},...scoreList];
+                username.value = '';
+            }
+
+            function getScorelist() {
+
+                scoreList.forEach(item => {
+                    highscore.innerHTML += `
+                <tr>
+                <td><span>${username.value}</span></td>
+                <td><span>${score.value}</span></td>
+              </tr>                `
+                });
+            }
+
+        </script>
+
+</body>
+
+</html>
