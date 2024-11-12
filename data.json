@@ -1,0 +1,12 @@
+{
+    "scoreList": [
+        {
+            "username": "Test",
+            "score": 100
+        },
+        {
+            "username": "Test1",
+            "score": 200
+        }
+    ]
+}

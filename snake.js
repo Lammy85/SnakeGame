@@ -10,7 +10,7 @@ let direction = '';
 let foodCollected = false;
 let counter = 300;
 let score = 0;
-let scoreList = [{ "username": "Test", "score": 100 }];
+let scoreList = [{ "username": "Test", "score": 100 },{"username":"Testi","score":1200}];
 
 gameIntervall = setInterval(gameLoop, counter);
 document.addEventListener('keydown', KeyDown);
@@ -22,6 +22,7 @@ document.getElementById('againButton').addEventListener("click", playAgain);
 placeFood();
 draw();
 getScorelist();
+
 
 
 function draw() {
@@ -145,13 +146,13 @@ function playAgain() {
 
 function saveScoreList() { //Funktioniert noch nicht, sollte auch besser ne JSON file sein (Persistenz)
     document.getElementById('username').textContent = username;
-    scoreList = [...scoreList,{ username: username, score: score }];
+    scoreList = [...scoreList, { username: username, score: score }];
     username.value = '';
 }
 
 function getScorelist() {
 
-    for (i=0; i<scoreList.length;i++) {
+    for (i = 0; i < scoreList.length; i++) {
         highscore.innerHTML += `
                 <tr>
                 <td><span>${scoreList[i].username}</span></td>
