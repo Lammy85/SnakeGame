@@ -156,7 +156,9 @@ function saveScoreList() {
 
 function getScorelist() {
 
-    let data = JSON.parse(localStorage.getItem("scoreList")) || [];    
+    const data = JSON.parse(localStorage.getItem("scoreList")) || [];
+
+    data.sort((a, b) => b.score - a.score);
 
     for (let i = 0; i < data.length; i++) {
         
