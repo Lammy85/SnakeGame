@@ -10,7 +10,7 @@ let direction = '';
 let foodCollected = false;
 let counter = 300;
 let score = 0;
-//const scoreList = [{ "username": "Test", "score": 100 },{"username":"Testi","score":1200}];
+//const scoreList = [{ "username": "Test", "score": 100 }, { "username": "Testi", "score": 1200 }];
 
 gameIntervall = setInterval(gameLoop, counter);
 document.addEventListener('keydown', KeyDown);
@@ -145,14 +145,16 @@ function playAgain() {
 }
 
 function saveScoreList() {
+    let scoreList = JSON.parse(localStorage.getItem("scoreList") || "[]");
     document.getElementById('username').textContent = username;
-    const newScore = {"username":username, "score":score};
-    localStorage.setItem(newScore, JSON.stringify(newScore));
+    let newScore = { "username": username, "score": score };
+    scoreList.push(newScore);
+    localStorage.setItem("scoreList", JSON.stringify(scoreList));
 }
 
 function getScorelist() {
 
-    let savedScore = JSON.parse(localStorage.getItem('newScore'));
+    let savedScore = JSON.parse(localStorage.getItem("scoreList") || "[]");
 
     for (i = 0; i < savedScore.length; i++) {
         highscore.innerHTML += `
