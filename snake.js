@@ -145,12 +145,13 @@ function playAgain() {
 }
 
 function saveScoreList() {
-    document.getElementById('username').textContent = username;
+    let myname = document.getElementById('username').textContent.toString();
+    let myscore = score.toString();
     //let scoreList = JSON.parse(localStorage.getItem("scoreList"))|| "[]";
     const scoreList = [];
-    let newScore = { "username": username, "score": score };
+    let newScore = { "username": myname, "score": myscore };
     scoreList.push(newScore);
-    localStorage.setItem("scoreList", JSON.stringify(scoreList));
+    localStorage.setItem('scoreList', JSON.stringify(scoreList));
     location.reload();
 }
 
@@ -158,7 +159,7 @@ function getScorelist() {
 
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
-        var item = JSON.parse(localStorage.getItem(key)|| "[]");
+        var item = JSON.parse(localStorage.getItem(key));
         highscore.innerHTML += `
                 <tr>
                 <td><span>${item[i].username}</span></td>
