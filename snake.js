@@ -145,10 +145,9 @@ function playAgain() {
 }
 
 function saveScoreList() {
-    let myname = document.getElementById('username').textContent.toString();
+    let myname = document.getElementById('username').value.toString();
     let myscore = score.toString();
-    //let scoreList = JSON.parse(localStorage.getItem("scoreList"))|| "[]";
-    const scoreList = [];
+    let scoreList = JSON.parse(localStorage.getItem("scoreList")) || [];
     let newScore = { "username": myname, "score": myscore };
     scoreList.push(newScore);
     localStorage.setItem('scoreList', JSON.stringify(scoreList));
