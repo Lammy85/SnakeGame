@@ -87,6 +87,7 @@ function gameLoop() {
     document.getElementById('score').textContent = score;
     testGameOver();
     if (foodCollected) {
+        document.getElementById('audiofile').play();
         snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
         foodCollected = false;
         score = score + 100;

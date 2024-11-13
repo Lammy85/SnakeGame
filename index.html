@@ -68,6 +68,7 @@
 </head>
 
 <body>
+    
     <nav class="navbar navbar-custom">
         <div class="container-fluid justify-content-start">
 
@@ -87,6 +88,9 @@
     <div class="container d-flex justify-content-center align-items-center">
 
         <canvas id="canvas" width="480" height="480" hidden="false"></canvas>
+        <audio id="audiofile" preload="auto">
+            <source src="coin-upaif-14631.mp3" />
+        </audio>
         <div id="result" hidden="true" class="card">
             <div class="card-header">
                 <h2>Game Over</h2>
@@ -95,15 +99,15 @@
                 <p>Score: <span id="total"></span></p>
             </div>
             <form onsubmit="saveScoreList();return false;">
-            <div>
-                <input type="text" id="username" class="form-control" placeholder="Your Name">
-            </div>
-            <div id="knoepfe">
-                <button type="submit" class="btn btn-secondary" id="saveButton">
-                    Save Score
-                </button>
-                <button class="btn btn-secondary" id="againButton" type="button">Play Again</button>
-            </div>
+                <div>
+                    <input type="text" id="username" class="form-control" placeholder="Your Name">
+                </div>
+                <div id="knoepfe">
+                    <button type="submit" class="btn btn-secondary" id="saveButton">
+                        Save Score
+                    </button>
+                    <button class="btn btn-secondary" id="againButton" type="button">Play Again</button>
+                </div>
             </form>
         </div>
 
@@ -142,8 +146,8 @@
         <div id="scoreTable">
             <table class="table">
                 <thead>
-                    <tr>                        
-                        <th colspan="2">Highscore</th>                      
+                    <tr>
+                        <th colspan="2">Highscore</th>
                     </tr>
                 </thead>
                 <tbody id="highscore">
