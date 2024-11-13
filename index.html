@@ -64,11 +64,16 @@
         #knoepfe {
             padding: 10px;
         }
+
+        #currentScore {
+            margin: 0;            
+            padding: 1%;
+        }
     </style>
 </head>
 
 <body>
-    
+
     <nav class="navbar navbar-custom">
         <div class="container-fluid justify-content-start">
 
@@ -78,22 +83,15 @@
                 Snake Game
             </a>
             <button class="btn btn-outline-success btn-sm" id="tutorialButton" type="button">How To Play</button>
-
             <div>
             </div>
     </nav>
-    <div class="container-fluid d-flex justify-content-start">
+    <div class="container-fluid d-flex justify-content-start"id="currentScore">
         <p>Score: <span id="score"></span></p>
     </div>
     <div class="container d-flex justify-content-center align-items-center">
 
         <canvas id="canvas" width="480" height="480" hidden="false"></canvas>
-        <audio id="collectSound" preload="auto" type="audio/mpeg">
-            <source src="gameboy-pluck-41265-[AudioTrimmer.com].mp3" />
-        </audio>
-        <audio id="gameoverSound" preload="auto" type="audio/mpeg">
-            <source src="retro-explode-1-236678.mp3" />
-        </audio>
         <div id="result" hidden="true" class="card">
             <div class="card-header">
                 <h2>Game Over</h2>

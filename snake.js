@@ -10,8 +10,8 @@ let direction = '';
 let foodCollected = false;
 let counter = 300;
 let score = 0;
-let collectSound = document.getElementById("collectSound");
-let gameoverSound = document.getElementById("gameoverSound");
+let collectSound = new Audio('gameboy-pluck-41265-_AudioTrimmer.com_.wav');
+let gameoverSound = new Audio('retro-explode-1-236678.wav');
 
 gameIntervall = setInterval(gameLoop, counter);
 document.addEventListener('keydown', KeyDown);
@@ -19,11 +19,9 @@ document.getElementById('tutorialButton').addEventListener("click", showTutorial
 document.getElementById('playButton').addEventListener("click", closeTutorial);
 document.getElementById('againButton').addEventListener("click", playAgain);
 
-
 placeFood();
 draw();
 getScorelist();
-
 
 function draw() {
     ctx.fillStyle = 'black';
