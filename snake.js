@@ -10,7 +10,7 @@ let direction = '';
 let foodCollected = false;
 let counter = 300;
 let score = 0;
-//const scoreList = [{ "username": "Test", "score": 100 }];
+const scoreList = [{ "username": "Test", "score": 100 }];
 
 gameIntervall = setInterval(gameLoop, counter);
 document.addEventListener('keydown', KeyDown);
@@ -146,7 +146,7 @@ function playAgain() {
 
 function saveScoreList() {
     document.getElementById('username').textContent = username;
-    let scoreList = JSON.parse(localStorage.getItem("scoreList"));
+    let scoreList = JSON.parse(localStorage.getItem("scoreList"))|| "[]";
     let newScore = { "username": username, "score": score };
     scoreList.push(newScore);
     localStorage.setItem("scoreList", JSON.stringify(scoreList));
@@ -157,7 +157,7 @@ function getScorelist() {
 
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
-        var item = JSON.parse(localStorage.getItem(key));
+        var item = JSON.parse(localStorage.getItem(key)|| "[]");
         highscore.innerHTML += `
                 <tr>
                 <td><span>${item.username}</span></td>
