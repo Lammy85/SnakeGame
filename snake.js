@@ -10,14 +10,14 @@ let direction = '';
 let foodCollected = false;
 let counter = 300;
 let score = 0;
-//const scoreList = [{ "username": "Test", "score": 100 }];
+let collectSound = document.getElementById("collectSound");
+let gameoverSound = document.getElementById("gameoverSound");
 
 gameIntervall = setInterval(gameLoop, counter);
 document.addEventListener('keydown', KeyDown);
 document.getElementById('tutorialButton').addEventListener("click", showTutorial);
 document.getElementById('playButton').addEventListener("click", closeTutorial);
 document.getElementById('againButton').addEventListener("click", playAgain);
-//document.getElementById('saveButton').addEventListener("click", saveScoreList);
 
 
 placeFood();
@@ -46,6 +46,7 @@ function testGameOver() {
 
 
     if (snake[0].x < 0 || snake[0].x > cols - 1 || snake[0].y < 0 || snake[0].y > rows - 1 || duplicatePart) {
+        gameoverSound.play();
         clearInterval(gameIntervall);
         document.getElementById('result').hidden = false;
         document.getElementById('canvas').hidden = true;
@@ -87,7 +88,7 @@ function gameLoop() {
     document.getElementById('score').textContent = score;
     testGameOver();
     if (foodCollected) {
-        document.getElementById('audiofile').play();
+        collectSound.play();
         snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
         foodCollected = false;
         score = score + 100;
