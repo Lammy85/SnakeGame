@@ -156,13 +156,14 @@ function saveScoreList() {
 
 function getScorelist() {
 
-    for (var i = 0; i < localStorage.length; i++) {
-        var key = localStorage.key(i);
-        var item = JSON.parse(localStorage.getItem(key));
+    let data = JSON.parse(localStorage.getItem("scoreList")) || [];    
+
+    for (let i = 0; i < data.length; i++) {
+        
         highscore.innerHTML += `
                 <tr>
-                <td><span>${item[i].username}</span></td>
-                <td><span>${item[i].score}</span></td>
+                <td><span>${data[i].username}</span></td>
+                <td><span>${data[i].score}</span></td>
               </tr>                `
     };
 }
