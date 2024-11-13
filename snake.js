@@ -10,14 +10,14 @@ let direction = '';
 let foodCollected = false;
 let counter = 300;
 let score = 0;
-const scoreList = [{ "username": "Test", "score": 100 }];
+//const scoreList = [{ "username": "Test", "score": 100 }];
 
 gameIntervall = setInterval(gameLoop, counter);
 document.addEventListener('keydown', KeyDown);
 document.getElementById('tutorialButton').addEventListener("click", showTutorial);
 document.getElementById('playButton').addEventListener("click", closeTutorial);
 document.getElementById('againButton').addEventListener("click", playAgain);
-document.getElementById('saveButton').addEventListener("click", saveScoreList);
+//document.getElementById('saveButton').addEventListener("click", saveScoreList);
 
 
 placeFood();
@@ -146,7 +146,8 @@ function playAgain() {
 
 function saveScoreList() {
     document.getElementById('username').textContent = username;
-    let scoreList = JSON.parse(localStorage.getItem("scoreList"))|| "[]";
+    //let scoreList = JSON.parse(localStorage.getItem("scoreList"))|| "[]";
+    const scoreList = [];
     let newScore = { "username": username, "score": score };
     scoreList.push(newScore);
     localStorage.setItem("scoreList", JSON.stringify(scoreList));
@@ -160,8 +161,8 @@ function getScorelist() {
         var item = JSON.parse(localStorage.getItem(key)|| "[]");
         highscore.innerHTML += `
                 <tr>
-                <td><span>${item.username}</span></td>
-                <td><span>${item.score}</span></td>
+                <td><span>${item[i].username}</span></td>
+                <td><span>${item[i].score}</span></td>
               </tr>                `
     };
 }
