@@ -56,8 +56,23 @@ function testGameOver() {
 }
 
 function placeFood() {
-    let randomX = Math.floor(Math.random() * cols);
-    let randomY = Math.floor(Math.random() * rows);
+
+    let randomX;
+    let randomY;
+    let probeX = new Boolean(true);
+    let probeY = new Boolean(true);
+
+    while (probeX) {
+        randomX = Math.floor(Math.random() * cols);
+        if (snake.find(part => part.x) != randomX)
+            probeX = false;
+    }
+
+    while (probeY) {
+        randomY = Math.floor(Math.random() * rows);
+        if (snake.find(part => part.y) != randomY)
+            probeY = false;
+    }    
 
     food = { x: randomX, y: randomY };
 }
@@ -178,7 +193,7 @@ function getScorelist() {
 
         highscore.innerHTML += `
                 <tr>
-                <td><span>${i+1}</span></td>
+                <td><span>${i + 1}</span></td>
                 <td><span>${data[i].username}</span></td>
                 <td><span>${data[i].score}</span></td>
               </tr>                `
