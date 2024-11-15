@@ -132,9 +132,11 @@ function KeyDown(e) {
 }
 
 function showTutorial() {
-    clearInterval(gameIntervall);
-    document.getElementById('tutorial').hidden = false;
+    if (!document.getElementById('canvas').hidden)
+        clearInterval(gameIntervall);
+
     document.getElementById('startGame').hidden = true;
+    document.getElementById('tutorial').hidden = false;
     document.getElementById('canvas').hidden = true;
     document.getElementById('results').hidden = true;
 }
