@@ -44,6 +44,14 @@
             color: white;
         }
 
+        #pressStart {
+            margin: 0;
+            position: absolute;            
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
         #startGame {
             align-items: center;
             align-self: center;
@@ -129,7 +137,9 @@
 
             </div>
             <div class="card-body">
-                <div><button class="btn btn-secondary" id="startButton" type="button">Start</button></div>
+                <div id="pressStart"><button class="btn btn-secondary" id="startButton" type="button">Start</button>
+                </div>
+                <img src="snakew-svgrepo-com.svg" alt="White snake" style="position:relative; bottom:5px;" width="300">
             </div>
         </div>
         <div id="tutorial" hidden="true" class="card">
