@@ -72,9 +72,12 @@ function placeFood() {
         randomY = Math.floor(Math.random() * rows);
         if (snake.find(part => part.y) != randomY)
             probeY = false;
-    }    
+    }
 
     food = { x: randomX, y: randomY };
+
+    probeX = true;
+    probeY = true;
 }
 
 
