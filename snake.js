@@ -174,10 +174,11 @@ function getScorelist() {
 
     data.sort((a, b) => b.score - a.score);
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < 10; i++) {
 
         highscore.innerHTML += `
                 <tr>
+                <td><span>${i+1}</span></td>
                 <td><span>${data[i].username}</span></td>
                 <td><span>${data[i].score}</span></td>
               </tr>                `
