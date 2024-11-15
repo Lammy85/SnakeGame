@@ -117,16 +117,16 @@ function gameLoop() {
 }
 
 function KeyDown(e) {
-    if (e.keyCode == 37) {
+    if (e.keyCode == 37 && direction != 'RIGHT') {
         direction = 'LEFT';
     }
-    if (e.keyCode == 38) {
+    if (e.keyCode == 38 && direction != 'DOWN') {
         direction = 'UP';
     }
-    if (e.keyCode == 39) {
+    if (e.keyCode == 39 && direction != 'LEFT') {
         direction = 'RIGHT';
     }
-    if (e.keyCode == 40) {
+    if (e.keyCode == 40 && direction != 'UP') {
         direction = 'DOWN';
     }
 }
