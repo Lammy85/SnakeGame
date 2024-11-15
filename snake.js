@@ -58,11 +58,9 @@ function testGameOver() {
 function placeFood() {
 
     let randomX = Math.floor(Math.random() * cols);
-    let randomY = Math.floor(Math.random() * rows);
+    let randomY = Math.floor(Math.random() * rows);    
 
-    let snakeParts = snake.find(part => part.x == randomX && part.y == randomY)
-
-    while (snakeParts) {
+    while (snake.find(part => part.x == randomX && part.y == randomY)) {
         randomX = Math.floor(Math.random() * cols);
         randomY = Math.floor(Math.random() * rows);
     }
