@@ -13,15 +13,18 @@ let score = 0;
 let collectSound = new Audio('gameboy-pluck-41265-_AudioTrimmer.com_.wav');
 let gameoverSound = new Audio('retro-explode-1-236678.wav');
 
-gameIntervall = setInterval(gameLoop, counter);
+//gameIntervall = setInterval(gameLoop, counter);
 document.addEventListener('keydown', KeyDown);
 document.getElementById('tutorialButton').addEventListener("click", showTutorial);
 document.getElementById('playButton').addEventListener("click", closeTutorial);
 document.getElementById('againButton').addEventListener("click", playAgain);
+document.getElementById('startButton').addEventListener("click", startGame);
 
-placeFood();
-draw();
+document.getElementById('startGame').hidden = false;
+
+
 getScorelist();
+
 
 function draw() {
     ctx.fillStyle = 'black';
@@ -81,7 +84,6 @@ function speedUp() {
 
 function gameLoop() {
     document.getElementById('tutorial').hidden = true;
-    document.getElementById('canvas').hidden = false;
     document.getElementById('result').hidden = true;
     document.getElementById('score').textContent = score;
     testGameOver();
@@ -132,12 +134,22 @@ function KeyDown(e) {
 function showTutorial() {
     clearInterval(gameIntervall);
     document.getElementById('tutorial').hidden = false;
+    document.getElementById('startGame').hidden = true;
     document.getElementById('canvas').hidden = true;
     document.getElementById('results').hidden = true;
 }
 
 function closeTutorial() {
     location.reload();
+}
+
+function startGame() {
+    document.getElementById('startGame').hidden = true;
+    document.getElementById('canvas').hidden = false;
+    gameIntervall = setInterval(gameLoop, counter);
+    placeFood();
+    draw();
+
 }
 
 function playAgain() {
@@ -161,7 +173,7 @@ function getScorelist() {
     data.sort((a, b) => b.score - a.score);
 
     for (let i = 0; i < data.length; i++) {
-        
+
         highscore.innerHTML += `
                 <tr>
                 <td><span>${data[i].username}</span></td>
