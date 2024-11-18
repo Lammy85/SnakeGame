@@ -115,19 +115,19 @@
             <div class="card-header">
                 <h2>Game Over</h2>
             </div>
-            <form action="/" method="POST"></form>
-            <div class="card-body">
-                <p>Score: <span id="total" name="totalScore"></span></p>
-            </div>
-            <div>
-                <input type="text" id="username" class="form-control" name="playername" placeholder="Your Name">
-            </div>
-            <div id="knoepfe">
-                <button type="submit" class="btn btn-secondary" id="saveButton">
-                    Save Score
-                </button>
-                <button class="btn btn-secondary" id="againButton" type="button">Play Again</button>
-            </div>
+            <form action="/" method="POST">
+                <div class="card-body">
+                    <p>Score: <span id="total" name="totalScore"></span></p>
+                </div>
+                <div>
+                    <input type="text" id="username" class="form-control" name="playername" placeholder="Your Name">
+                </div>
+                <div id="knoepfe">
+                    <button class="btn btn-secondary" id="saveButton" type="submit">
+                        Save Score
+                    </button>
+                    <button class="btn btn-secondary" id="againButton" type="button">Play Again</button>
+                </div>
             </form>
         </div>
         <div id="startGame" hidden="false" class="card">
@@ -211,6 +211,7 @@
         document.getElementById('playButton').addEventListener("click", closeTutorial);
         document.getElementById('againButton').addEventListener("click", playAgain);
         document.getElementById('startButton').addEventListener("click", startGame);
+        document.getElementById('saveButton').addEventListener("click", sendData);
 
         document.getElementById('startGame').hidden = false;
 
@@ -352,7 +353,40 @@
 
         function playAgain() {
             location.reload();
-        }</script>
+        }
+
+        async function sendData() {
+
+            let wert = score;
+
+            try {
+
+                const response = await fetch('/saveScore', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+
+                    },
+                    body: JSON.stringify({ totalScore: wert }),
+                });
+
+                if (!response.ok) {
+
+                    throw new Error(`Serverfehler: ${response.status} - ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                console.log('Antwort:', result);
+                alert(`Erfolg: ${result.message}`);
+
+            } catch (error) {
+
+                console.error('Fehler bei Fetch:', error.message);
+                alert(`Fehler: ${error.message}`);
+            }
+        }
+    </script>
 </body>
 
 </html>
