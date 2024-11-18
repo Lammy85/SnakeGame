@@ -13,7 +13,6 @@ let score = 0;
 let collectSound = new Audio('gameboy-pluck-41265-_AudioTrimmer.com_.wav');
 let gameoverSound = new Audio('retro-explode-1-236678.wav');
 
-//gameIntervall = setInterval(gameLoop, counter);
 document.addEventListener('keydown', KeyDown);
 document.getElementById('tutorialButton').addEventListener("click", showTutorial);
 document.getElementById('playButton').addEventListener("click", closeTutorial);
@@ -21,9 +20,6 @@ document.getElementById('againButton').addEventListener("click", playAgain);
 document.getElementById('startButton').addEventListener("click", startGame);
 
 document.getElementById('startGame').hidden = false;
-
-
-getScorelist();
 
 
 function draw() {
@@ -163,31 +159,4 @@ function startGame() {
 
 function playAgain() {
     location.reload();
-}
-
-function saveScoreList() {
-    let myname = document.getElementById('username').value.toString();
-    let myscore = score.toString();
-    let scoreList = JSON.parse(localStorage.getItem("scoreList")) || [];
-    let newScore = { "username": myname, "score": myscore };
-    scoreList.push(newScore);
-    localStorage.setItem('scoreList', JSON.stringify(scoreList));
-    location.reload();
-}
-
-function getScorelist() {
-
-    const data = JSON.parse(localStorage.getItem("scoreList")) || [];
-
-    data.sort((a, b) => b.score - a.score);
-
-    for (let i = 0; i < 10; i++) {
-
-        highscore.innerHTML += `
-                <tr>
-                <td><span>${i + 1}</span></td>
-                <td><span>${data[i].username}</span></td>
-                <td><span>${data[i].score}</span></td>
-              </tr>                `
-    };
 }
