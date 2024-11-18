@@ -115,12 +115,13 @@
             <div class="card-header">
                 <h2>Game Over</h2>
             </div>
-            <form action="/" method="POST">
+            <form id="playerForm">
                 <div class="card-body">
                     <p>Score: <span id="total" name="totalScore"></span></p>
                 </div>
                 <div>
-                    <input type="text" id="username" class="form-control" name="playername" placeholder="Your Name">
+                    <input type="text" id="playername" class="form-control" name="playername" required
+                        placeholder="Your Name">
                 </div>
                 <div id="knoepfe">
                     <button class="btn btn-secondary" id="saveButton" type="submit">
@@ -184,7 +185,7 @@
                 <tbody>
                     {% for highscore in daten %}
                     <td>{{ highscore.playername }}</td>
-                    <td>{{ highscore.totalscore }}</td>
+                    <td>{{ highscore.totalScore }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -357,35 +358,24 @@
 
         async function sendData() {
 
-            let wert = score;
+            const playername = document.getElementById('playername').value;
+
 
             try {
-
-                const response = await fetch('/saveScore', {
+                const response = await fetch('http://127.0.0.1:5000/saveScore', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-
-                    },
-                    body: JSON.stringify({ totalScore: wert }),
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playername: playername, totalScore: score })
                 });
 
-                if (!response.ok) {
-
-                    throw new Error(`Serverfehler: ${response.status} - ${response.statusText}`);
-                }
-
                 const result = await response.json();
-                console.log('Antwort:', result);
                 alert(`Erfolg: ${result.message}`);
-
             } catch (error) {
-
-                console.error('Fehler bei Fetch:', error.message);
+                console.error('Fetch-Fehler:', error);
                 alert(`Fehler: ${error.message}`);
             }
         }
+
     </script>
 </body>
 
