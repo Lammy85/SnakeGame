@@ -12,7 +12,6 @@ class Highscore(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     playername = db.Column(db.String(200), nullable=True)
     totalScore = db.Column(db.Integer, nullable=True)
-    created_at = db.Column(db.DateTime(), default=datetime.now)
 
     @app.route('/', methods=['GET', 'POST'])
     def start_page():
