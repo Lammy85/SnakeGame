@@ -35,8 +35,7 @@ def save_score():
     
     db.session.add(new_highscore)
     db.session.commit()
-    return redirect(url_for('index.html'))
-        
+    return
     
 if __name__ == "__main__":
     app.run(debug=True)
