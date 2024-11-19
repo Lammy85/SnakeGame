@@ -116,7 +116,7 @@
             <div class="card-header">
                 <h2>Game Over</h2>
             </div>
-            <form id="playerForm">
+            <div id="playerForm">
                 <div class="card-body">
                     <p>Score: <span id="total" name="totalScore"></span></p>
                 </div>
@@ -130,7 +130,7 @@
                     </button>
                     <button class="btn btn-secondary" id="againButton" type="button">Play Again</button>
                 </div>
-            </form>
+            </div>
         </div>
         <div id="startGame" hidden="false" class="card">
             <div class="card-header">
@@ -215,6 +215,7 @@
         document.getElementById('startButton').addEventListener("click", startGame);
         document.getElementById('saveButton').addEventListener("click", sendData);
         document.getElementById('startGame').hidden = false;
+
 
         const apple = new Image(24, 24);
         apple.src = "static/apple1.png";
