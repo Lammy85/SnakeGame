@@ -180,7 +180,7 @@
             <table class="data-table table-striped table-hover" id="data-table">
                 <thead>
                     <tr>
-                        <th colspan="3">HIGHSCORE - TOP 10</th>
+                        <th colspan="3">HIGHSCORE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -218,17 +218,26 @@
 
 
         const apple = new Image(24, 24);
-        apple.src = "static/apple1.png";
+        apple.src = "static/apple2.png";
 
         const bgrnd = new Image(480,480);
-        bgrnd.src = "static/Ground1.png";
+        bgrnd.src = "static/Background1.png";
+
+        const snakehead = new Image(24,24);
+        snakehead.src = "static/head1.png";
+
+        const snakebody = new Image(24,24);
+        snakebody.src = "static/body.png";
 
 
         function draw() {
             ctx.drawImage(bgrnd, 0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'lightgreen';
 
-            snake.forEach(part => add(part.x, part.y));
+            snake.forEach(part => 
+                addBody(part.x, part.y));
+
+            addHead(snake[0].x, snake[0].y);
+                
                        
             addApple(food.x, food.y);
 
@@ -268,6 +277,14 @@
 
         function addApple(x,y){
             ctx.drawImage(apple, x * cellWidth, y * cellHeight, cellWidth, cellHeight); 
+        }
+
+        function addBody(x,y){
+            ctx.drawImage(snakebody, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+        }
+
+        function addHead(x,y){
+            ctx.drawImage(snakehead, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
         }
 
 
