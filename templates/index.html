@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="icon" type="image/svg" href="static/snake-svgrepo-com.svg">
 
 <head>
     <meta charset="UTF-8">
@@ -213,22 +214,26 @@
         document.getElementById('againButton').addEventListener("click", playAgain);
         document.getElementById('startButton').addEventListener("click", startGame);
         document.getElementById('saveButton').addEventListener("click", sendData);
-
         document.getElementById('startGame').hidden = false;
+
+        const apple = new Image(24, 24);
+        apple.src = "static/apple1.png";
+
+        const bgrnd = new Image(480,480);
+        bgrnd.src = "static/Ground1.png";
 
 
         function draw() {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(bgrnd, 0, 0, canvas.width, canvas.height);
             ctx.fillStyle = 'lightgreen';
 
             snake.forEach(part => add(part.x, part.y));
-
-            ctx.fillStyle = 'red';
-            add(food.x, food.y);
+                       
+            addApple(food.x, food.y);
 
             requestAnimationFrame(draw);
         }
+
 
         function testGameOver() {
 
@@ -258,6 +263,10 @@
 
             food = { x: randomX, y: randomY };
 
+        }
+
+        function addApple(x,y){
+            ctx.drawImage(apple, x * cellWidth, y * cellHeight, cellWidth, cellHeight); 
         }
 
 
@@ -340,7 +349,9 @@
         }
 
         function closeTutorial() {
-            location.reload();
+            document.getElementById('startGame').hidden = false;
+            document.getElementById('tutorial').hidden = true;
+            document.getElementById('canvas').hidden = false;
         }
 
         function startGame() {
@@ -349,7 +360,6 @@
             gameIntervall = setInterval(gameLoop, counter);
             placeFood();
             draw();
-
         }
 
         function playAgain() {
