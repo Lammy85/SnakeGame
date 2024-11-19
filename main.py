@@ -19,7 +19,7 @@ class Highscore(db.Model):
 @app.route('/', methods=['GET', 'POST'])
 def start_page():           
         
-    daten = Highscore.query.all()
+    daten = Highscore.query.order_by(Highscore.totalScore.desc()).all()
     return render_template('index.html', daten=daten)
     
 @app.route('/saveScore', methods=['POST'])
