@@ -341,15 +341,17 @@
 
             snake.forEach(part =>
                 addBody(part.x, part.y)); //drawing the body of the snake
+            
+            if (burgerPlaced) {
+                addBurger(burger.x, burger.y);
+            }//burger spawning            
+
 
             addHead(snake[0].x, snake[0].y, direction); //drawing the head of the snake
 
             addRock(rock.x, rock.y); //rock spawning
             addApple(food.x, food.y); //food spawning
-            if (burgerPlaced) {
-                addBurger(burger.x, burger.y);
-            }//burger spawning            
-
+            
             requestAnimationFrame(draw); //tells the browser to perform an animation
         }
 
