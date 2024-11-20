@@ -201,7 +201,7 @@
         let food;
         let cellWidth = canvas.width / cols;
         let cellHeight = canvas.height / rows;
-        let direction = '';
+        let direction = 'default';
         let foodCollected = false;
         let counter = 300;
         let score = 0;
@@ -210,7 +210,7 @@
 
         document.addEventListener('keydown', KeyDown);
         document.getElementById('tutorialButton').addEventListener("click", showTutorial);
-        document.getElementById('playButton').addEventListener("click", closeTutorial);
+        document.getElementById('playButton').addEventListener("click", playAgain);
         document.getElementById('againButton').addEventListener("click", playAgain);
         document.getElementById('startButton').addEventListener("click", startGame);
         document.getElementById('saveButton').addEventListener("click", sendData);
@@ -236,12 +236,22 @@
             snake.forEach(part =>
                 addBody(part.x, part.y));
 
-            addHead(snake[0].x, snake[0].y);
+            addHead(snake[0].x, snake[0].y, direction);
 
 
             addApple(food.x, food.y);
 
             requestAnimationFrame(draw);
+        }
+
+        function getRotationAngle(direction) {
+            switch (direction) {
+                case 'RIGHT': return 3 * Math.PI / 2;
+                case 'DOWN': return 0;
+                case 'LEFT': return Math.PI / 2;
+                case 'UP': return Math.PI;
+                default: return 0;
+            }
         }
 
 
@@ -283,8 +293,21 @@
             ctx.drawImage(snakebody, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
         }
 
-        function addHead(x, y) {
+        function addHead(x, y, direction) {
+            const angle = getRotationAngle(direction);
+
+            ctx.save();
+
+            const centerX = x * cellWidth + cellWidth / 2;
+            const centerY = y * cellHeight + cellHeight / 2;
+
+            ctx.translate(centerX, centerY);
+            ctx.rotate(angle);
+            ctx.translate(-centerX, -centerY);
+
             ctx.drawImage(snakehead, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+
+            ctx.restore();
         }
 
 
@@ -300,6 +323,7 @@
                 part.y = lastPart.y;
             }
         }
+
 
         function speedUp() {
             counter = counter * 0.95;
@@ -335,10 +359,12 @@
                 snake[0].y++;
             }
 
+
             if (snake[0].x == food.x && snake[0].y == food.y) {
                 foodCollected = true;
                 placeFood();
             }
+
         }
 
         function KeyDown(e) {
@@ -364,12 +390,6 @@
             document.getElementById('tutorial').hidden = false;
             document.getElementById('canvas').hidden = true;
             document.getElementById('results').hidden = true;
-        }
-
-        function closeTutorial() {
-            document.getElementById('startGame').hidden = false;
-            document.getElementById('tutorial').hidden = true;
-            document.getElementById('canvas').hidden = false;
         }
 
         function startGame() {
@@ -400,12 +420,12 @@
                 const responseData = await response.json();
                 console.log('Success:', responseData.message);
                 location.reload();
-                
+
             } catch (error) {
                 console.error('Error:', error);
             }
         }
-        
+
     </script>
 </body>
 
