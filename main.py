@@ -34,7 +34,7 @@ def save_score():
     
     db.session.add(new_highscore)
     db.session.commit()
-    return
+    return jsonify({"message": "Daten erfolgreich gespeichert"})
     
 if __name__ == "__main__":
     app.run(debug=True)

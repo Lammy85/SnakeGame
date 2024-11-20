@@ -220,25 +220,25 @@
         const apple = new Image(24, 24);
         apple.src = "static/apple2.png";
 
-        const bgrnd = new Image(480,480);
+        const bgrnd = new Image(480, 480);
         bgrnd.src = "static/Background1.png";
 
-        const snakehead = new Image(24,24);
+        const snakehead = new Image(24, 24);
         snakehead.src = "static/head1.png";
 
-        const snakebody = new Image(24,24);
+        const snakebody = new Image(24, 24);
         snakebody.src = "static/body.png";
 
 
         function draw() {
             ctx.drawImage(bgrnd, 0, 0, canvas.width, canvas.height);
 
-            snake.forEach(part => 
+            snake.forEach(part =>
                 addBody(part.x, part.y));
 
             addHead(snake[0].x, snake[0].y);
-                
-                       
+
+
             addApple(food.x, food.y);
 
             requestAnimationFrame(draw);
@@ -275,15 +275,15 @@
 
         }
 
-        function addApple(x,y){
-            ctx.drawImage(apple, x * cellWidth, y * cellHeight, cellWidth, cellHeight); 
+        function addApple(x, y) {
+            ctx.drawImage(apple, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
         }
 
-        function addBody(x,y){
+        function addBody(x, y) {
             ctx.drawImage(snakebody, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
         }
 
-        function addHead(x,y){
+        function addHead(x, y) {
             ctx.drawImage(snakehead, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
         }
 
@@ -394,16 +394,16 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ playername: playername, totalScore: score })
-                });
-
-                const result = await response.json();
-                alert(`Erfolg: ${result.message}`);
+                }); if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const responseData = await response.json();
+                console.log('Success:', responseData.message);
             } catch (error) {
-                console.error('Fetch Error:', error);
-                alert(`Error: ${error.message}`);
+                console.error('Error:', error);
             }
         }
-
+        
     </script>
 </body>
 
