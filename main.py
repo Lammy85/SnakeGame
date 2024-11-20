@@ -19,7 +19,8 @@ class Highscore(db.Model):
 def start_page():           
         
     daten = Highscore.query.order_by(Highscore.totalScore.desc()).all()
-    return render_template('index.html', daten=daten)
+    top_daten = daten[:10]
+    return render_template('index.html', daten=top_daten)
     
 @app.route('/saveScore', methods=['POST'])
 
@@ -35,6 +36,7 @@ def save_score():
     db.session.add(new_highscore)
     db.session.commit()
     return jsonify({"message": "Daten erfolgreich gespeichert"})
+
     
 if __name__ == "__main__":
     app.run(debug=True)
