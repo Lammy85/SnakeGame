@@ -121,10 +121,27 @@
             width: 300px;
         }
 
+        #pauseButton {
+            margin-right: 2px;
+        }
+
         #currentScore {
             font-family: joystix;
-            margin: 0;
-            padding-top: 3%;
+            position: relative;
+            display: inline-flex;
+            justify-content: start;
+            align-items: start;
+            top: 2px;
+        }
+
+        #theGame {
+            display: inline-flex;
+            width: max-content;
+            margin-top: -3%;
+        }
+
+        #gameCanvas {
+            flex-shrink: 0;
         }
 
         body {
@@ -146,7 +163,14 @@
 
         #gameDisplay {
             display: flex;
-            justify-content: center;
+            position: relative;
+            text-align: center;
+            right: 0;
+            left: 0;
+            margin-right: auto;
+            margin-left: auto;
+            height: 100%;
+            width: 80%;
         }
     </style>
 </head>
@@ -171,117 +195,119 @@
 
     <div id="bgrnd">
 
-        <!-- current score-->
-
-        <div id="currentScore">
-            <p>Score: <span id="score"></span></p>
-        </div>
-
         <!-- content -->
 
-        <div id="gameDisplay">
+        <div class="vstack gap-3" id="gameDisplay">
 
-            <!-- game display -->
+            <!-- current score and pause button-->
 
-            <canvas id="canvas" width="480" height="480" hidden="true"></canvas>
-
-            <!-- game over screen -->
-            <div>
+            <div class="p-2" id="currentScore">
                 <button class="btn btn-secondary btn-sm" id="pauseButton" type="button">Pause</button>
+                <p>Score: <span id="score"></span></p>
             </div>
+            <div class="p-2" id="theGame">
 
-            <div id="result" hidden="true" class="card">
-                <div class="card-header" id="gameOver">
-                    <h2>Game Over</h2>
+                <!-- game display -->
+
+                <div id="gameCanvas">
+                    <canvas id="canvas" width="480" height="480" hidden="true"></canvas>
                 </div>
-                <div id="playerForm">
-                    <div class="card-body">
-                        <p>Score: <span id="total" name="totalScore"></span></p>
+
+                <!-- game over screen -->
+
+                <div id="result" hidden="true" class="card">
+                    <div class="card-header" id="gameOver">
+                        <h2>Game Over</h2>
                     </div>
-                    <div>
-                        <!-- input for the name of the player -->
-
-                        <input type="text" id="playername" class="form-control" name="playername" required
-                            placeholder="Your Name">
-                    </div>
-
-                    <!-- buttons for saving the score or starting a new game without saving -->
-
-                    <div id="knoepfe">
-                        <button class="btn btn-secondary btn-sm" id="saveButton" type="submit">
-                            Save Score
-                        </button>
-                        <button class="btn btn-secondary btn-sm" id="againButton" type="button">Play Again</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- start screen cause audio requires interaction from the user -->
-
-            <div id="startGame" hidden="false" class="card">
-                <div class="card-header">
-                    <h2>Snake Game</h2>
-
-                </div>
-                <div class="card-body">
-                    <div><button class="btn btn-danger btn-lg" id="startButton" type="button">Start</button>
-                    </div>
-                    <img src="static/snakew-svgrepo-com.svg" alt="White snake" style="position:relative; bottom:5px;"
-                        width="300">
-                </div>
-            </div>
-
-            <!-- a little game manual -->
-
-            <div id="tutorial" hidden="true" class="card">
-                <div class="card-header">
-                    <h2>How To Play</h2>
-                </div>
-                <div class="card-body">
-                    <div id="carouselExample" class="carousel slide">
-
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <p>Use the arrow keys to control the little green snake.<br><br>
-                                    Try to make the snake eat as many pills as you can.</p>
-                            </div>
-                            <div class="carousel-item">
-                                <p>But be careful: with every pill, not only does your score increase, but the
-                                    snake gets longer and faster. <br><br>The
-                                    game ends when the snake hits the wall or one of its own body parts.</p>
-                            </div>
+                    <div id="playerForm">
+                        <div class="card-body">
+                            <p>Score: <span id="total" name="totalScore"></span></p>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                        <div><button class="btn btn-secondary" id="playButton" type="button">Play</button></div>
+                        <div>
+                            <!-- input for the name of the player -->
+
+                            <input type="text" id="playername" class="form-control" name="playername" required
+                                placeholder="Your Name">
+                        </div>
+
+                        <!-- buttons for saving the score or starting a new game without saving -->
+
+                        <div id="knoepfe">
+                            <button class="btn btn-secondary btn-sm" id="saveButton" type="submit">
+                                Save Score
+                            </button>
+                            <button class="btn btn-secondary btn-sm" id="againButton" type="button">Play Again</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- highscore table -->
-            <div id="scoreTable">
-                <table class="data-table table-striped table-hover" id="data-table">
-                    <thead>
-                        <tr>
-                            <th colspan="3">HIGHSCORE - TOP 10</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for highscore in daten %}
-                        <td>{{ highscore.playername }}</td>
-                        <td>{{ highscore.totalScore }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <!-- start screen cause audio requires interaction from the user -->
+
+                <div id="startGame" hidden="false" class="card">
+                    <div class="card-header">
+                        <h2>Snake Game</h2>
+
+                    </div>
+                    <div class="card-body">
+                        <div><button class="btn btn-danger btn-lg" id="startButton" type="button">Start</button>
+                        </div>
+                        <img src="static/snakew-svgrepo-com.svg" alt="White snake"
+                            style="position:relative; bottom:5px;" width="300">
+                    </div>
+                </div>
+
+                <!-- a little game manual -->
+
+                <div id="tutorial" hidden="true" class="card">
+                    <div class="card-header">
+                        <h2>How To Play</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="carouselExample" class="carousel slide">
+
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <p>Use the arrow keys to control the little green snake.<br><br>
+                                        Try to make the snake eat as many pills as you can.</p>
+                                </div>
+                                <div class="carousel-item">
+                                    <p>But be careful: with every pill, not only does your score increase, but the
+                                        snake gets longer and faster. <br><br>The
+                                        game ends when the snake hits the wall or one of its own body parts.</p>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                            <div><button class="btn btn-secondary" id="playButton" type="button">Play</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- highscore table -->
+                <div id="scoreTable">
+                    <table class="data-table table-striped table-hover" id="data-table">
+                        <thead>
+                            <tr>
+                                <th colspan="3">HIGHSCORE - TOP 10</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for highscore in daten %}
+                            <td>{{ highscore.playername }}</td>
+                            <td>{{ highscore.totalScore }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
