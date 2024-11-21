@@ -452,9 +452,9 @@
             let randomX = Math.floor(Math.random() * cols);
             let randomY = Math.floor(Math.random() * rows);
 
-            //prevent food from spawning inside the snake, an apple or a rock
+            //prevent burger from spawning inside the snake, an apple or a rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) || (rock.x == randomX && rock.y == randomY) || (food.x == randomX && food.y == randomY)) {
+            while (snake.find(part => part.x == randomX && part.y == randomY) || (rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) || (food.x == randomX && food.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
@@ -470,9 +470,9 @@
             let randomX = Math.floor(Math.random() * cols);
             let randomY = Math.floor(Math.random() * rows);
 
-            //prevent food from spawning inside the snake
+            //prevent rock from spawning inside the snake or another rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) && rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) {
+            while ((snake[0].x == randomX && snake[0].y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
