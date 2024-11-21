@@ -322,10 +322,10 @@
         let rows = 20;
         let cols = 20;
         let snake = [{ x: 9, y: 3 }]; //starting coordinates of the snake
-        let food; //empty because coordinates are random
+        let food = []; //empty because coordinates are random
         let rock = [{}]; //empty because coordinates are random
-        let burger; //same
-        let clock;
+        let burger = []; //same
+        let clock = [];
         let cellWidth = canvas.width / cols;
         let cellHeight = canvas.height / rows;
         let direction = 'default';
@@ -446,7 +446,7 @@
 
             //prevent food from spawning inside the snake, a burger, a clock or a rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) {
+            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)||(clock.x == randomX && clock.y == randomY)||(burger.x == randomX && burger.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
@@ -464,7 +464,7 @@
 
             //prevent burger from spawning inside the snake, an apple, the clock or a rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) || (rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) || (food.x == randomX && food.y == randomY)) {
+            while (snake.find(part => part.x == randomX && part.y == randomY) || (rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) || (food.x == randomX && food.y == randomY)||(clock.x == randomX && clock.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
@@ -500,7 +500,7 @@
 
             //prevent clock from spawning inside the snake, an food item or a rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) {
+            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)||(food.x == randomX && food.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
@@ -636,7 +636,7 @@
                     score = score + 500;
                     clockCounter = clockCounter + 1;
                     burgerCounter = 0;
-                    burger = null;
+                    burger = [];
                 }
                 if (clockCollected) {
                     collectSound.play();                    
@@ -644,7 +644,7 @@
                     clockCollected = false;
                     score = score + 200;
                     clockCounter = 0;
-                    clock = null;
+                    clock = [];
                     slowDown();
                 }
 
