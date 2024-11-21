@@ -326,6 +326,7 @@
         let rock = [{}]; //empty because coordinates are random
         let burger = []; //same
         let clock = [];
+        let scissors = [];
         let cellWidth = canvas.width / cols;
         let cellHeight = canvas.height / rows;
         let direction = 'default';
@@ -335,6 +336,9 @@
         let clockCollected = false;
         let clockPlaced = false;
         let clockCounter = 0;
+        let scissorsCollected = false;
+        let scissorsPlaced = false;
+        let scissorCounter = 0;
         let burgerCounter = 0; //eat apples to get burger
         let counter = 300; //for game speed
         let score = 0;
@@ -373,6 +377,9 @@
         const pixelClock = new Image(24, 24);
         pixelClock.src = "static/clock1.png";
 
+        const pixelScissors = new Image(24, 24);
+        pixelScissors.src = "static/scissors.png";
+
 
         function draw() {
             ctx.drawImage(bgrnd, 0, 0, canvas.width, canvas.height); //drawing the background
@@ -387,6 +394,10 @@
             if (clockPlaced) {
                 addClock(clock.x, clock.y);
             }//clock spawning
+
+            if (scissorsPlaced) {
+                addScissors(scissors.x, scissors.y);
+            }//scissors spawning
 
 
             addHead(snake[0].x, snake[0].y, direction); //drawing the head of the snake
@@ -446,7 +457,7 @@
 
             //prevent food from spawning inside the snake, a burger, a clock or a rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)||(clock.x == randomX && clock.y == randomY)||(burger.x == randomX && burger.y == randomY)) {
+            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY) || (clock.x == randomX && clock.y == randomY) || (burger.x == randomX && burger.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
@@ -464,7 +475,7 @@
 
             //prevent burger from spawning inside the snake, an apple, the clock or a rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) || (rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) || (food.x == randomX && food.y == randomY)||(clock.x == randomX && clock.y == randomY)) {
+            while (snake.find(part => part.x == randomX && part.y == randomY) || (rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) || (food.x == randomX && food.y == randomY) || (clock.x == randomX && clock.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
@@ -500,12 +511,30 @@
 
             //prevent clock from spawning inside the snake, an food item or a rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)||(food.x == randomX && food.y == randomY)) {
+            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY) || (food.x == randomX && food.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
 
             clock = { x: randomX, y: randomY };
+
+        }
+
+        function placeScissors() {
+
+            //get random coordinates
+
+            let randomX = Math.floor(Math.random() * cols);
+            let randomY = Math.floor(Math.random() * rows);
+
+            //prevent scissors from spawning inside the snake, an food item or a rock
+
+            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY) || (food.x == randomX && food.y == randomY)) {
+                randomX = Math.floor(Math.random() * cols);
+                randomY = Math.floor(Math.random() * rows);
+            }
+
+            scissors = { x: randomX, y: randomY };
 
         }
 
@@ -531,6 +560,12 @@
 
         function addClock(x, y) {
             ctx.drawImage(pixelClock, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+        }
+
+        //drawing the scissors
+
+        function addScissors(x, y) {
+            ctx.drawImage(pixelScissors, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
         }
 
         //drawing a bodypart
@@ -625,6 +660,7 @@
                     snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
                     foodCollected = false;
                     score = score + 100;
+                    scissorCounter = scissorCounter + 1;
                     burgerCounter = burgerCounter + 1;
                     speedUp();
                 }
@@ -640,13 +676,22 @@
                     burger = [];
                 }
                 if (clockCollected) {
-                    collectSound.play();                    
+                    collectSound.play();
                     clockPlaced = false;
                     clockCollected = false;
                     score = score + 200;
                     clockCounter = 0;
                     clock = [];
                     slowDown();
+                }
+                if (scissorsCollected) {
+                    collectSound.play();
+                    scissorsCollected = false;
+                    scissorsPlaced = false;
+                    score = score + 300;
+                    scissorCounter = 0;
+                    scissors = [];
+                    snake = snake.slice(0, -2);
                 }
 
                 if (!burgerCollected && burgerCounter >= 3 && !burgerPlaced) {
@@ -657,6 +702,10 @@
                 if (!clockCollected && clockCounter >= 3 && !clockPlaced) {
                     placeClock();
                     clockPlaced = true;
+                }
+                if (!scissorsCollected && scissorCounter >= 10 && !scissorsPlaced) {
+                    placeScissors();
+                    scissorsPlaced = true;
                 }
 
 
@@ -694,6 +743,12 @@
 
                 if (snake[0].x == clock.x && snake[0].y == clock.y) {
                     clockCollected = true;
+                }
+
+                //take scissors
+
+                if (snake[0].x == scissors.x && snake[0].y == scissors.y) {
+                    scissorsCollected = true;
                 }
             }
         }
