@@ -331,7 +331,6 @@
         let foodCollected = false; //only spawns food when false
         let burgerCollected = false; //same
         let burgerPlaced = false;
-        let burgerTime = false;
         let burgerCounter = 0; //eat apple to get burger
         let counter = 300; //for game speed
         let score = 0;
@@ -376,8 +375,8 @@
 
             if (burgerPlaced) {
                 addBurger(burger.x, burger.y);
-            }//burger spawning            
-
+            }//burger spawning
+            
 
             addHead(snake[0].x, snake[0].y, direction); //drawing the head of the snake
 
@@ -436,7 +435,7 @@
 
             //prevent food from spawning inside the snake or a rock
 
-            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.x == randomX && rock.y == randomY) {
+            while (snake.find(part => part.x == randomX && part.y == randomY) || rock.find(rockpart => rockpart.x == randomX && rockpart.y == randomY)) {
                 randomX = Math.floor(Math.random() * cols);
                 randomY = Math.floor(Math.random() * rows);
             }
@@ -595,13 +594,10 @@
                     burgerCounter = 0;
                     burger = null;
                 }
+                
                 if (!burgerCollected && burgerCounter >= 5 && !burgerPlaced) {
-                    burgerTime = true;
-                }
-                if (burgerTime) {
                     placeBurger();
                     burgerPlaced = true;
-                    burgerTime = false;
                 }
 
 
