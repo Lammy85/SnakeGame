@@ -631,6 +631,7 @@
                 if (burgerCollected) {
                     collectSound.play();
                     snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
+                    snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
                     burgerPlaced = false;
                     burgerCollected = false;
                     score = score + 500;
