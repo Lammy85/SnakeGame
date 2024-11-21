@@ -186,6 +186,9 @@
             <canvas id="canvas" width="480" height="480" hidden="true"></canvas>
 
             <!-- game over screen -->
+            <div>
+                <button class="btn btn-secondary btn-sm" id="pauseButton" type="button">Pause</button>
+            </div>
 
             <div id="result" hidden="true" class="card">
                 <div class="card-header" id="gameOver">
@@ -305,6 +308,7 @@
         let burgerCounter = 0; //eat apple to get burger
         let counter = 300; //for game speed
         let score = 0;
+        let pause = false;
         let collectSound = new Audio('static/gameboy-pluck-41265-_AudioTrimmer.com_.wav');
         let gameoverSound = new Audio('static/retro-explode-1-236678.wav');
 
@@ -314,6 +318,7 @@
         document.getElementById('againButton').addEventListener("click", playAgain);
         document.getElementById('startButton').addEventListener("click", startGame);
         document.getElementById('saveButton').addEventListener("click", sendData);
+        document.getElementById('pauseButton').addEventListener('click', pauseGame);
         document.getElementById('startGame').hidden = false;
 
 
@@ -341,7 +346,7 @@
 
             snake.forEach(part =>
                 addBody(part.x, part.y)); //drawing the body of the snake
-            
+
             if (burgerPlaced) {
                 addBurger(burger.x, burger.y);
             }//burger spawning            
@@ -351,7 +356,7 @@
 
             addRock(rock.x, rock.y); //rock spawning
             addApple(food.x, food.y); //food spawning
-            
+
             requestAnimationFrame(draw); //tells the browser to perform an animation
         }
 
@@ -411,22 +416,22 @@
 
         }
 
-        function placeBurger() {          
+        function placeBurger() {
 
-                //get random coordinates
+            //get random coordinates
 
-                let randomX = Math.floor(Math.random() * cols);
-                let randomY = Math.floor(Math.random() * rows);
+            let randomX = Math.floor(Math.random() * cols);
+            let randomY = Math.floor(Math.random() * rows);
 
-                //prevent food from spawning inside the snake, an apple or a rock
+            //prevent food from spawning inside the snake, an apple or a rock
 
-                while (snake.find(part => part.x == randomX && part.y == randomY) || (rock.x == randomX && rock.y == randomY) || (food.x == randomX && food.y == randomY)) {
-                    randomX = Math.floor(Math.random() * cols);
-                    randomY = Math.floor(Math.random() * rows);
-                }
+            while (snake.find(part => part.x == randomX && part.y == randomY) || (rock.x == randomX && rock.y == randomY) || (food.x == randomX && food.y == randomY)) {
+                randomX = Math.floor(Math.random() * cols);
+                randomY = Math.floor(Math.random() * rows);
+            }
 
-                burger = { x: randomX, y: randomY };
-    
+            burger = { x: randomX, y: randomY };
+
         }
 
         function placeRock() {
@@ -519,91 +524,106 @@
 
         function speedUp() {
             counter = counter * 0.95;
-            clearInterval(gameIntervall)
+            clearInterval(gameIntervall);
             gameIntervall = setInterval(gameLoop, counter);
+        }
+
+        function pauseGame() {
+            if (pause) {
+                gameIntervall = setInterval(gameLoop, counter);
+                pause = false;
+            }
+            else {
+                clearInterval(gameIntervall);
+                pause = true;
+            }
+
         }
 
         //the game
 
         function gameLoop() {
-            document.getElementById('tutorial').hidden = true;
-            document.getElementById('result').hidden = true;
-            document.getElementById('score').textContent = score;
-            testGameOver();
-            if (foodCollected) {
-                collectSound.play();
-                snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
-                foodCollected = false;
-                score = score + 100;
-                burgerCounter = burgerCounter + 1;
-                speedUp();
-            }
-            if (burgerCollected) {
-                collectSound.play();
-                snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
-                burgerPlaced = false;
-                burgerCollected = false;
-                score = score + 500;
-                burgerCounter = 0;
-                burger = null;
-            }
-            if (!burgerCollected && burgerCounter >= 5 && !burgerPlaced) {
-                burgerTime = true;
-            }
-            if (burgerTime){
-                placeBurger();
-                burgerPlaced = true;
-                burgerTime = false;
-            }
+            if (!pause) {
+                document.getElementById('tutorial').hidden = true;
+                document.getElementById('result').hidden = true;
+                document.getElementById('score').textContent = score;
+
+                testGameOver();
+                if (foodCollected) {
+                    collectSound.play();
+                    snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
+                    foodCollected = false;
+                    score = score + 100;
+                    burgerCounter = burgerCounter + 1;
+                    speedUp();
+                }
+                if (burgerCollected) {
+                    collectSound.play();
+                    snake = [{ x: snake[0].x, y: snake[0].y }, ...snake];
+                    burgerPlaced = false;
+                    burgerCollected = false;
+                    score = score + 500;
+                    burgerCounter = 0;
+                    burger = null;
+                }
+                if (!burgerCollected && burgerCounter >= 5 && !burgerPlaced) {
+                    burgerTime = true;
+                }
+                if (burgerTime) {
+                    placeBurger();
+                    burgerPlaced = true;
+                    burgerTime = false;
+                }
 
 
-            //makes the body follow the head
+                //makes the body follow the head
 
-            shiftSnake();
+                shiftSnake();
 
-            //moves the head
+                //moves the head
 
-            if (direction == 'LEFT') {
-                snake[0].x--;
+                if (direction == 'LEFT') {
+                    snake[0].x--;
+                }
+                if (direction == 'RIGHT') {
+                    snake[0].x++;
+                }
+                if (direction == 'UP') {
+                    snake[0].y--;
+                }
+                if (direction == 'DOWN') {
+                    snake[0].y++;
+                }
+
+                //eat food
+
+                if (snake[0].x == food.x && snake[0].y == food.y) {
+                    foodCollected = true;
+                    placeFood();
+                }
+
+                if (snake[0].x == burger.x && snake[0].y == burger.y) {
+                    burgerCollected = true;
+                }
             }
-            if (direction == 'RIGHT') {
-                snake[0].x++;
-            }
-            if (direction == 'UP') {
-                snake[0].y--;
-            }
-            if (direction == 'DOWN') {
-                snake[0].y++;
-            }
-
-            //eat food
-
-            if (snake[0].x == food.x && snake[0].y == food.y) {
-                foodCollected = true;
-                placeFood();
-            }
-
-            if (snake[0].x == burger.x && snake[0].y == burger.y) {
-                burgerCollected = true;
-            }
-
-
         }
 
         //function to translate pressed keys into directions
 
         function KeyDown(e) {
-            if (e.keyCode == 37 && direction != 'RIGHT') {
-                direction = 'LEFT';
-            }
-            if (e.keyCode == 38 && direction != 'DOWN') {
-                direction = 'UP';
-            }
-            if (e.keyCode == 39 && direction != 'LEFT') {
-                direction = 'RIGHT';
-            }
-            if (e.keyCode == 40 && direction != 'UP') {
-                direction = 'DOWN';
+            if (!pause) {
+                if (e.keyCode == 37 && direction != 'RIGHT') {
+                    direction = 'LEFT';
+                }
+                if (e.keyCode == 38 && direction != 'DOWN') {
+                    direction = 'UP';
+                }
+                if (e.keyCode == 39 && direction != 'LEFT') {
+                    direction = 'RIGHT';
+                }
+                if (e.keyCode == 40 && direction != 'UP') {
+                    direction = 'DOWN';
+                }
             }
         }
 
