@@ -268,13 +268,24 @@
 
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <p>Use the arrow keys to control the little green snake.<br><br>
-                                        Try to make the snake eat as many pills as you can.</p>
+                                    <p>Use the arrow keys to control the little purple snake.<br><br>
+                                        Try to make the snake eat as many food as you can.</p>
                                 </div>
                                 <div class="carousel-item">
-                                    <p>But be careful: with every pill, not only does your score increase, but the
+                                    <p>But be careful: with every apple, not only does your score increase, but the
                                         snake gets longer and faster. <br><br>The
-                                        game ends when the snake hits the wall or one of its own body parts.</p>
+                                        game ends when the snake hits the wall, a rock or one of its own body parts.</p>
+                                </div>
+                                <div class="carousel-item">
+                                    <p>Items:<br>
+                                        Apple: <img src="static/apple2.png" alt="a red apple"><br>
+                                        + 100 Points, Body + 1, + Speed<br>
+                                        Burger: <img src="static/burger1.png" alt="a hamburger"><br>
+                                        + 500 Points, Body + 2<br> 
+                                        Clock: <img src="static/clock1.png" alt="a clock"><br>
+                                        + 200 Points, - Speed<br>
+                                        Scissors: <img src="static/scissors.png" alt="scissors"><br>
+                                        + 300 Points, Body - 2</p>
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
@@ -629,7 +640,7 @@
         //function to decrease the game speed
 
         function slowDown() {
-            counter = counter * 1.10;
+            counter = counter * 1.35;
             clearInterval(gameIntervall);
             gameIntervall = setInterval(gameLoop, counter);
         }
