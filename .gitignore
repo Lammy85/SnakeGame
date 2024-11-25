@@ -15,5 +15,4 @@ wsgi.py
 
 # Built Visual Studio Code Extensions
 *.vsix
-__pycache__/
 instance/db.db
