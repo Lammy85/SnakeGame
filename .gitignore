@@ -7,6 +7,7 @@ __pycache__/
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+instance/db.db
 
 wsgi.py
 
@@ -15,4 +16,3 @@ wsgi.py
 
 # Built Visual Studio Code Extensions
 *.vsix
-instance/db.db
