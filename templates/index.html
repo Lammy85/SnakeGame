@@ -269,7 +269,7 @@
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <p>Use the arrow keys to control the little purple snake.<br><br>
-                                        Try to make the snake eat as many food as you can.</p>
+                                        Try to make the snake eat as much as you can.</p>
                                 </div>
                                 <div class="carousel-item">
                                     <p>But be careful: with every apple, not only does your score increase, but the
@@ -640,7 +640,7 @@
         //function to decrease the game speed
 
         function slowDown() {
-            counter = counter * 1.35;
+            counter = counter * 1.3;
             clearInterval(gameIntervall);
             gameIntervall = setInterval(gameLoop, counter);
         }
