@@ -175,15 +175,16 @@
         }
 
         #soundBar {
-            width: 480px;
-            display:block;
+            font-family: joystix;
+            width: 240px;
+            display: block;
             position: relative;
             text-align: start;
             justify-content: start;
             padding: 1%;
             margin-top: -2.5%;
             color: lightgray;
-            
+
         }
     </style>
 </head>
@@ -335,7 +336,7 @@
             </div>
             <div id="soundBar">
                 <label for="customRange1" id="volumeLabel" class="form-label">Volume</label>
-                <input type="range" class="form-range" min="0" max="100" id="soundVolume">
+                <input type="range" class="form-range" tabindex="-1" min="0" max="100" id="soundVolume">
             </div>
         </div>
 
@@ -682,7 +683,7 @@
                 document.getElementById('result').hidden = true;
                 document.getElementById('score').textContent = score;
 
-                soundVolume()
+                soundVolume();
 
                 testGameOver();
                 if (foodCollected) {
@@ -859,7 +860,9 @@
         //sound volume
 
         function soundVolume() {
+
             let volume = document.getElementById('soundVolume').value;
+
             volume = volume / 100;
             collectSound.volume = volume;
             gameoverSound.volume = volume;
