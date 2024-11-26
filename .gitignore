@@ -11,6 +11,8 @@ instance/db.db
 
 wsgi.py
 
+venv/
+
 # Local History for Visual Studio Code
 .history/
 
