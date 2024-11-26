@@ -281,7 +281,7 @@
                                         Apple: <img src="static/apple2.png" alt="a red apple"><br>
                                         + 100 Points, Body + 1, + Speed<br>
                                         Burger: <img src="static/burger1.png" alt="a hamburger"><br>
-                                        + 500 Points, Body + 2<br> 
+                                        + 500 Points, Body + 2<br>
                                         Clock: <img src="static/clock1.png" alt="a clock"><br>
                                         + 200 Points, - Speed<br>
                                         Scissors: <img src="static/scissors.png" alt="scissors"><br>
@@ -321,7 +321,10 @@
                     </table>
                 </div>
             </div>
+            <label for="customRange1" class="form-label">Volume</label>
+        <input type="range" class="form-range" min="0" max="100" id="soundVolume">
         </div>
+        
     </div>
 
     <!-- JavaScript -->
@@ -665,6 +668,8 @@
                 document.getElementById('result').hidden = true;
                 document.getElementById('score').textContent = score;
 
+                soundVolume()
+
                 testGameOver();
                 if (foodCollected) {
                     collectSound.play();
@@ -835,6 +840,15 @@
             } catch (error) {
                 console.error('Error:', error);
             }
+        }
+
+        //sound volume
+
+        function soundVolume(){
+            let volume = document.getElementById('soundVolume').value;
+            volume = volume / 100;
+            collectSound.volume = volume;
+            gameoverSound.volume = volume;
         }
 
     </script>
